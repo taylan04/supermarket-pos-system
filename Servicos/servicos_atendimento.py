@@ -1,0 +1,86 @@
+from menu import *
+from util import *
+from arquivo import *
+import pandas as pd
+from tabulate import tabulate
+from .servicos_produto import *
+from Servicos_db.servicos_registros_db import *
+
+# sem o . não funcionou, porque eu criei uma pasta para o serviços e sem o ponto ele procura
+# no diretório principal, com o ponto ele procura "aqui mesmo". ( pesquisei )
+        
+# atendimento
+
+def dar_baixa_no_estoque(carrinho):
+    produtos = consultar_produtos()
+    
+    for item in carrinho:
+        for produto in produtos:
+            if item.id_produto == produto.id:
+                quantidade_retirada = item.quantidade
+                produto_atualizado = Produto(produto.id,produto.nome,produto.preco,produto.quantidade - quantidade_retirada)
+                atualizar_produto(produto_atualizado)
+
+def finalizar_atendimento(cliente):
+    carrinho = consultar_carrinho()
+    data = datetime.datetime.now()
+    print(f"\nAtendimento do {cliente} finalizado!")
+    print(f"Data: {data.strftime("%d/%m/%Y")} {data.strftime("%H:%M")}")
+
+    if not carrinho:
+        print("\nCarrinho Vazio.")
+    else:
+        tabela = []
+        for item in carrinho:
+            tabela.append([item.id, item.nome, item.quantidade, item.valor])
+
+        df = pd.DataFrame(tabela,columns=["Item", "Produto", "Quantidade", "Total"])
+        df = df.groupby("Produto").agg({"Quantidade":"sum", "Total":"sum"}).reset_index()
+        total_itens = len(df)
+        total_valor = df["Total"].sum()
+
+        print("\n" + tabulate(df.values, headers=df.columns, tablefmt="rounded_outline"))
+        print(f"\nTotal de itens distintos comprados: {total_itens}")
+        print(f"Total gasto: R${round(total_valor,2)}")
+
+        salvar_registro(cliente, total_valor)
+        dar_baixa_no_estoque(carrinho)
+        limpar_carrinho()
+
+def encerrar_atendimento():
+    registros = consultar_registros()
+    data = datetime.datetime.now()
+    print("\nFechamento do caixa!")
+    print(f"Data: {data.strftime("%d/%m/%Y")} {data.strftime("%H:%M")}")
+
+    if not registros:
+        tabela = [["Sem registro de clientes"]]
+        print(f"\n{tabulate(tabela, tablefmt="rounded_outline")}")
+        return
+
+    tabela = []
+    for registro in registros:
+        tabela.append([registro.cliente, registro.total])
+    
+    df = pd.DataFrame(tabela,columns=["Cliente", "Total"])
+    df = df.groupby("Cliente")['Total'].sum().reset_index()
+    total_vendas = df['Total'].sum()
+    print("\n" + tabulate(df.values, headers=df.columns, tablefmt="rounded_outline"))
+    print(f"Total de vendas: R${round(total_vendas, 2)}")
+
+def processar_fechamento_atendimento(cliente):
+    finalizar_atendimento(cliente)
+    fechar_caixa_ou_continuar()
+    opcao_fechar = entrar_inteiro_zero_permitido("\nDigite o número de sua opção: ")
+    
+    if opcao_fechar == 0:
+        encerrar_atendimento()
+        produtos_esgotados()
+        limpar_registros()
+        salvar_csv()
+        return True
+    elif opcao_fechar == 1:
+        limpar_carrinho()
+        return False
+    
+    return False       
