@@ -1,5 +1,5 @@
 from Servicos_db.servicos_produtos_db import *
-from Servicos_db.servicos_carrinho_db import *
+from .servicos_carrinho import *
 from util import *
 from tabulate import tabulate
 
@@ -15,14 +15,14 @@ def listar_produtos():
         tabela.append([id, nome, quantidade, preco])
     print(f"\n{tabulate(tabela, headers="firstrow", tablefmt="rounded_outline")}")
 
-def excluir_produto_carrinho():
-    carrinho = consultar_carrinho()
+def excluir_produto_carrinho(carrinho):
     if not carrinho:
         print("\nCarrinho vazio!")
-        return
+        return carrinho
     
     produto_id = entrar_inteiro("\nDigite o ID do produto que deseja excluir do carrinho: ")
-    remover_do_carrinho(produto_id)
+    carrinho = remover_produto_carrinho(carrinho, produto_id)
+    return carrinho
 
 def produtos_esgotados():
     produtos = produtos_sem_estoque()

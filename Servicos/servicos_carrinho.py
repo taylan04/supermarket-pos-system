@@ -1,40 +1,69 @@
-from Servicos_db.servicos_carrinho_db import *
+from Servicos_db.servicos_produtos_db import *
 from util import *
 from tabulate import tabulate
 
-def listar_carrinho():
-    carrinho_items = consultar_carrinho()
-    if not carrinho_items:
-        tabela = [["Não há produtos no carrinho!"]]
-        print(f"\n{tabulate(tabela, tablefmt="rounded_outline")}")
-        return
-    tabela = [["Item", "Id_produto", "Produto", "Quantidade", "Valor"]]
-    for item in carrinho_items:
-        id, id_produto, nome, quantidade, preco = item.id, item.id_produto, item.nome, item.quantidade, item.valor
-        tabela.append([id, id_produto, nome, quantidade, preco])
-    print(f"\n{tabulate(tabela, headers="firstrow", tablefmt="rounded_outline")}")
-
-def adicionar_carrinho():
-    produtos_no_carrinho = consultar_carrinho()
-    produto_id = entrar_inteiro("\nDigite o ID do produto que deseja adicionar no carrinho: ")
-    produto = pesquisar_produto(produto_id)
+def adicionar_produto_carrinho(carrinho, id_produto, quantidade):
+    produto = pesquisar_produto(id_produto)
+    
     if not produto:
-        print("\nProduto não encontrado.")
+        print("\nProduto não encontrado!")
+        return carrinho
+    
+    if produto.quantidade < quantidade:
+        print(f"\nQuantidade insuficiente! Estoque disponível: {produto.quantidade}")
+        return carrinho
+    
+    item_carrinho = {
+        "id_produto": produto.id,
+        "id": produto.id,
+        "nome": produto.nome,
+        "quantidade": quantidade,
+        "valor": produto.preco * quantidade
+    }
+    
+    carrinho.append(item_carrinho)
+    print(f"\nProduto {produto.nome} adicionado ao carrinho!")
+    return carrinho
+
+def listar_carrinho(carrinho):
+    if not carrinho:
+        tabela = [["Carrinho vazio!"]]
+        print(f"\n{tabulate(tabela, tablefmt='rounded_outline')}")
         return
     
-    quantidade_no_carrinho = 0
-
-    for item in produtos_no_carrinho:
-        if item.nome == produto.nome:
-            quantidade_no_carrinho += item.quantidade
-
-    quantidade = entrar_inteiro("\nDigite a quantidade: ")
-
-    if quantidade_no_carrinho + quantidade > produto.quantidade:
-        print("\nNão há estoque suficiente desse produto.")
-        return
+    tabela = [["Id", "Produto", "Quantidade", "Preço Unitário", "Total"]]
+    for item in carrinho:
+        preco_unitario = item["valor"] / item["quantidade"]
+        tabela.append([item["id"], item["nome"], item["quantidade"], preco_unitario, item["valor"]])
     
-    preco = produto.preco
-    incluir_carrinho(produto.id, produto.nome, quantidade, preco * quantidade)
-    print("\nProduto adicionado ao carrinho.")
- 
+    print(f"\n{tabulate(tabela, headers='firstrow', tablefmt='rounded_outline')}")
+    
+    total = sum(item["valor"] for item in carrinho)
+    print(f"\nTotal do carrinho: R${round(total, 2)}")
+
+def remover_produto_carrinho(carrinho, produto_id):
+    item_encontrado = None
+    
+    for item in carrinho:
+        if item["id_produto"] == produto_id:
+            item_encontrado = item
+            break
+    
+    if item_encontrado:
+        carrinho.remove(item_encontrado)
+        print(f"\nProduto removido do carrinho!")
+        return carrinho
+    else:
+        print("\nProduto não encontrado no carrinho!")
+        return carrinho
+
+def limpar_carrinho(carrinho):
+    carrinho.clear()
+    return carrinho
+
+def adicionar_carrinho(carrinho):
+    id_produto = entrar_inteiro("\nDigite o ID do produto que deseja adicionar: ")
+    quantidade = entrar_inteiro("Digite a quantidade: ")
+    carrinho = adicionar_produto_carrinho(carrinho, id_produto, quantidade)
+    return carrinho
+
