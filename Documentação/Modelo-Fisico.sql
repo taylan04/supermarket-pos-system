@@ -1,37 +1,39 @@
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS clientes (
-    id_cliente INTEGER PRIMARY KEY,
+    id_cliente INTEGER PRIMARY KEY AUTOINCREMENT,
     nome VARCHAR(100)
 );
 
 CREATE TABLE IF NOT EXISTS fornecedores (
-    id_fornecedor INTEGER PRIMARY KEY,
+    id_fornecedor INTEGER PRIMARY KEY AUTOINCREMENT,
     nome VARCHAR(100)
 );
 
 CREATE TABLE IF NOT EXISTS produtos (
-    id_produto INTEGER PRIMARY KEY,
+    id_produto INTEGER PRIMARY KEY AUTOINCREMENT,
     nome VARCHAR(100),
     quantidade INTEGER,
     preco REAL
 );
 
 CREATE TABLE IF NOT EXISTS compras (
-    id_compra INTEGER PRIMARY KEY,
+    id_compra INTEGER PRIMARY KEY AUTOINCREMENT,
     data_hora TEXT,
     id_cliente INTEGER,
-    FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente),
+    ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS itens (
-    id_item INTEGER PRIMARY KEY,
+    id_item INTEGER PRIMARY KEY AUTOINCREMENT,
     quantidade INTEGER,
     preco REAL,
     id_compra INTEGER,
     id_produto INTEGER,
     FOREIGN KEY (id_compra) REFERENCES compras(id_compra),
-    FOREIGN KEY (id_produto) REFERENCES produtos(id_produto)
+    FOREIGN KEY (id_produto) REFERENCES produtos(id_produto),
+    ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS fornecedor_produtos (
@@ -39,5 +41,6 @@ CREATE TABLE IF NOT EXISTS fornecedor_produtos (
     id_produto INTEGER,
     PRIMARY KEY (id_fornecedor, id_produto),
     FOREIGN KEY (id_fornecedor) REFERENCES fornecedores(id_fornecedor),
-    FOREIGN KEY (id_produto) REFERENCES produtos(id_produto)
+    FOREIGN KEY (id_produto) REFERENCES produtos(id_produto),
+    ON UPDATE CASCADE ON DELETE CASCADE
 );

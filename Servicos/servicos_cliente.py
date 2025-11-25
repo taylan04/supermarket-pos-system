@@ -17,7 +17,11 @@ def consultar_ou_cadastrar_cliente():
 
     print("\nCliente não encontrado. Precisaremos cadastrá-lo: ")
     nome = solicitar_nome_do_cliente()
-    novo_cliente = Cliente(id_cliente,nome)
+    id_cliente = ""
+    for char in nome:
+        if char.isdigit():
+            id_cliente += char
+    novo_cliente = Cliente(int(id_cliente),nome)
     session.add(novo_cliente)
     session.commit()
 

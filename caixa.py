@@ -5,7 +5,6 @@ from Servicos.servicos_atendimento import *
 from WebScraping.produtoslp import *
 from Servicos.servicos_cliente import *
 from Servicos.servicos_carrinho import *
-from Servicos.servicos_produto import *
 
 def gerenciar_caixa():
     escolha_inicial()
@@ -32,14 +31,8 @@ def gerenciar_caixa():
 
                 match opcao:
                     case 1:
-                        listar_produtos()
-                    case 2:
-                        listar_carrinho(carrinho)
-                    case 3:
                         carrinho = adicionar_carrinho(carrinho)
-                    case 4:
-                        carrinho = excluir_produto_carrinho(carrinho)
-                    case 5:
+                    case 2:
                         deve_sair, carrinho, registros = processar_fechamento_atendimento(cliente.nome, carrinho, registros)
 
                         if deve_sair:  

@@ -2,6 +2,8 @@ from Servicos_db.servicos_produtos_db import *
 from util import *
 from tabulate import tabulate
 
+# listar carrinho, excluir produto do carrinho 
+
 def adicionar_produto_carrinho(carrinho, id_produto, quantidade):
     produto = pesquisar_produto(id_produto)
     
@@ -9,8 +11,14 @@ def adicionar_produto_carrinho(carrinho, id_produto, quantidade):
         print("\nProduto não encontrado!")
         return carrinho
     
-    if produto.quantidade < quantidade:
-        print(f"\nQuantidade insuficiente! Estoque disponível: {produto.quantidade}")
+    quantidade_no_carrinho = 0
+
+    for item in carrinho:
+        if item['nome'] == produto.nome:
+            quantidade_no_carrinho += item['quantidade']
+
+    if quantidade_no_carrinho + quantidade > produto.quantidade:
+        print("\nNão há estoque suficiente desse produto.")
         return carrinho
     
     item_carrinho = {
