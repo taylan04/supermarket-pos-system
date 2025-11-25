@@ -1,7 +1,6 @@
 import datetime
 from arquivo import *
 
-
 def entrar_inteiro(msg):
     opcao = 0
     while True:
