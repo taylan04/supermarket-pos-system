@@ -20,10 +20,12 @@ def gerenciar_caixa():
         popular_banco()
         registros = []
 
+        # Esse while é para continuar atendendo vários clientes até fechar o caixa
         while True:
             cliente = consultar_ou_cadastrar_cliente()
             carrinho = []
 
+            # Esse while é para continuar no menu do mesmo cliente até ele finalizar o atendimento
             while True:
                 menu(cliente)
                 opcao = entrar_inteiro("\nDigite o número de sua opção: ")
