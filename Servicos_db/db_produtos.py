@@ -9,7 +9,7 @@ def consultar_produtos():
 
 def pesquisar_produto(id):
     with session:
-        produto = session.query(Produto).get(id)
+        produto = session.get(Produto, id)
 
     return produto
 

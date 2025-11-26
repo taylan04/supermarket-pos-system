@@ -2,8 +2,8 @@ import csv
 import pandas as pd
 from models import *
 from conexao import *
-from Servicos_db.servicos_produtos_db import *
-from Servicos_db.servicos_clientes_db import *
+from Servicos_db.db_produtos import *
+from Servicos_db.db_clientes import *
 
 def abertura_caixa():
     produtos = consultar_produtos()

@@ -6,7 +6,7 @@ from tabulate import tabulate
 from .servicos_produto import *
 from .servicos_registros import *
 from .servicos_carrinho import *
-from Servicos_db.servicos_produtos_db import *
+from Servicos_db.db_produtos import *
 from models import *
 
 # sem o . não funcionou, porque eu criei uma pasta para o serviços e sem o ponto ele procura
