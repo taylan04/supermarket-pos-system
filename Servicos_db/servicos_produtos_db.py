@@ -21,5 +21,5 @@ def produtos_sem_estoque():
 
 def atualizar_produto(produto):
     with session:
-        session.query(Produto).filter(Produto.id == produto.id).update({"quantidade": produto.quantidade})
+        session.query(Produto).filter(Produto.id_produto == produto.id_produto).update({"quantidade": produto.quantidade})
         session.commit()

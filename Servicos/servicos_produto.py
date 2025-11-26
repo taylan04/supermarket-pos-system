@@ -11,7 +11,7 @@ def listar_produtos():
         return
     tabela = [["Id", "Produto", "Estoque", "Preço"]]
     for produto in produtos:
-        id, nome, quantidade, preco = produto.id, produto.nome, produto.quantidade, produto.preco
+        id, nome, quantidade, preco = produto.id_produto, produto.nome, produto.quantidade, produto.preco
         tabela.append([id, nome, quantidade, preco])
     print(f"\n{tabulate(tabela, headers="firstrow", tablefmt="rounded_outline")}")
 

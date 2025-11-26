@@ -19,9 +19,9 @@ def dar_baixa_no_estoque(carrinho):
     
     for item in carrinho:
         for produto in produtos:
-            if item["id_produto"] == produto.id:
+            if item["id_produto"] == produto.id_produto:
                 quantidade_retirada = item["quantidade"]
-                produto_atualizado = Produto(produto.id, produto.nome, produto.preco, produto.quantidade - quantidade_retirada)
+                produto_atualizado = Produto(produto.id_produto, produto.nome, produto.preco, produto.quantidade - quantidade_retirada)
                 atualizar_produto(produto_atualizado)
 
 def finalizar_atendimento(cliente, carrinho, registros):

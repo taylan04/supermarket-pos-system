@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 import os.path
 from models import *
 
-banco = "banco.db"
+banco = "dados/banco.db"
 diretorio = os.path.dirname(os.path.abspath(__file__))
 banco = os.path.join(diretorio, banco)
 

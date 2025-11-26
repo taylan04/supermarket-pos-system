@@ -55,7 +55,7 @@ def executar_todos_os_processos():
     dados = extrair_dados(tag)
     dados_limpos = limpar_dados(dados)
     df = converter_dados_para_df(dados_limpos)
-    df.to_csv('produtos.csv', header=False, index=False)  
+    df.to_csv('dados/produtos.csv', header=False, index=False)  
 
 
 
