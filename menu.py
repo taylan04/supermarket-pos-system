@@ -14,3 +14,4 @@ def menu(cliente):
     print(f"\nOlá cliente {cliente.nome}, vamos às compras.")
     print("[1] - Adicionar produto")
     print("[2] - Finalizar Atendimento")
+

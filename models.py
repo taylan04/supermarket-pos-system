@@ -4,7 +4,8 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-produto_fornecedor = Table(
+#como é apenas uma tabela intermediária e não tem atributos extras, não é bom colocar como classe (pesquisei)
+Produto_fornecedor = Table(
     'produto_fornecedor',
     Base.metadata,
     Column('id_fornecedor', Integer, ForeignKey('fornecedores.id_fornecedor'), primary_key=True),

@@ -1,21 +1,22 @@
 from conexao import *
 from models import *
+from sqlalchemy.orm import joinedload
 
 def consultar_produtos():
     with session:
-        produtos = session.query(Produto).all()
+        produtos = session.query(Produto).options(joinedload(Produto.fornecedores)).all()
   
     return produtos
 
 def pesquisar_produto(id):
     with session:
-        produto = session.get(Produto, id)
+        produto = session.query(Produto).options(joinedload(Produto.fornecedores)).get(id)
 
     return produto
 
 def produtos_sem_estoque():
     with session:
-        produtos = session.query(Produto).filter(Produto.quantidade == 0).all()
+        produtos = session.query(Produto).filter(Produto.quantidade == 0).options(joinedload(Produto.fornecedores)).all()
 
     return produtos
 

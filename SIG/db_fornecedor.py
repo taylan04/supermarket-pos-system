@@ -1,15 +1,16 @@
 from conexao import *
 from models import *
+from sqlalchemy.orm import joinedload
 
-def consultar_fornecedor():
+def consultar_fornecedores():
     with session:
-        fornecedores = session.query(Fornecedor).all()
+        fornecedores = session.query(Fornecedor).options(joinedload(Fornecedor.produtos)).all()
     
     return fornecedores
 
-def consultar_fornecedores(id):
+def consultar_fornecedor(id):
     with session:
-        fornecedor = session.get(Fornecedor, id)
+        fornecedor = session.query(Fornecedor).options(joinedload(Fornecedor.produtos)).get(id)
     
     return fornecedor
 
