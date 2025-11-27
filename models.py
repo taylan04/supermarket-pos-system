@@ -57,6 +57,11 @@ class Compra(Base):
     cliente = relationship('Cliente', back_populates='compras')
     itens = relationship("Item",cascade="all, delete-orphan", back_populates="compra")
 
+    def __init__(self, id_compra, data_hora, id_cliente):
+        self.id_compra = id_compra
+        self.data_hora = data_hora
+        self.id_cliente = id_cliente
+
     def __str__(self):
         return f'{self.id_compra}, {self.data_hora}, {self.id_cliente}'
 
@@ -86,6 +91,13 @@ class Item(Base):
 
     produto_referenciado = relationship("Produto", back_populates="itens_comprados")
     compra = relationship("Compra", back_populates="itens")
+
+    def __init__(self, id_item, quantidade, preco, id_compra, id_produto):
+        self.id_item = id_item
+        self.quantidade = quantidade
+        self.preco = preco
+        self.id_compra = id_compra
+        self.id_produto = id_produto
 
     def __str__(self):
         return f'{self.id_item}, {self.quantidade}, {self.preco}, {self.id_compra}, {self.id_produto}'

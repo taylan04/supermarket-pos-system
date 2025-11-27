@@ -8,6 +8,9 @@ from .servicos_registros import *
 from .servicos_carrinho import *
 from Servicos_caixa_db.db_produtos import *
 from models import *
+from SIG.Servicos_db.db_compra import *
+from SIG.Dao_sig.dao_compra import *
+from SIG.Dao_sig.dao_itens import *
 
 # sem o . não funcionou, porque eu criei uma pasta para o serviços e sem o ponto ele procura
 # no diretório principal, com o ponto ele procura "aqui mesmo". ( pesquisei )
@@ -26,7 +29,7 @@ def dar_baixa_no_estoque(carrinho):
 
 def finalizar_atendimento(cliente, carrinho, registros):
     data = datetime.datetime.now()
-    print(f"\nAtendimento do {cliente} finalizado!")
+    print(f"\nAtendimento do {cliente.nome} finalizado!")
     print(f"Data: {data.strftime("%d/%m/%Y")} {data.strftime("%H:%M")}")
 
     if not carrinho:
@@ -45,7 +48,14 @@ def finalizar_atendimento(cliente, carrinho, registros):
         print(f"\nTotal de itens distintos comprados: {total_itens}")
         print(f"Total gasto: R${round(total_valor, 2)}")
 
-        adicionar_registro(registros, cliente, total_valor)
+        adicionar_registro(registros, cliente.nome, total_valor)
+        #adicionar na tabela compras
+        id_compra = gerar_proximo_id_compra()
+        compra = Compra(id_compra, data, cliente.id_cliente)
+        adicionar_compra(compra)
+        salvar_itens_da_compra_db(carrinho, id_compra)
+
+        #dar baixa no estoque quando finaliza o atendimento
         dar_baixa_no_estoque(carrinho)
         limpar_carrinho(carrinho)
 

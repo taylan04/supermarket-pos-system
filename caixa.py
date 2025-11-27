@@ -33,7 +33,7 @@ def gerenciar_caixa():
                     case 1:
                         carrinho = adicionar_carrinho(carrinho)
                     case 2:
-                        deve_sair, carrinho, registros = processar_fechamento_atendimento(cliente.nome, carrinho, registros)
+                        deve_sair, carrinho, registros = processar_fechamento_atendimento(cliente, carrinho, registros)
 
                         if deve_sair:  
                             print("\nCaixa encerrado.")

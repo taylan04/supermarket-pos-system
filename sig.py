@@ -1,5 +1,5 @@
 from SIG.Consultas.consultas_clientes import *
-from SIG.excel_utils import *
+from SIG.excel_util import *
 
 df1 = ler_excel_fornecedores()
 df2 = ler_excel_fornecedores_produtos()

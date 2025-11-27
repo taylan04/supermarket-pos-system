@@ -22,8 +22,8 @@ def adicionar_produto_carrinho(carrinho, id_produto, quantidade):
         return carrinho
     
     item_carrinho = {
-        "id_produto": produto.id,
-        "id": produto.id,
+        "id_produto": produto.id_produto,
+        "id": produto.id_produto,
         "nome": produto.nome,
         "quantidade": quantidade,
         "valor": produto.preco * quantidade
