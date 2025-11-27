@@ -1,5 +1,5 @@
 from util import *
-from Servicos_db.db_clientes import *
+from Servicos_caixa_db.db_clientes import *
 
 def cadastrar_cliente():
     nome = solicitar_nome_do_cliente()

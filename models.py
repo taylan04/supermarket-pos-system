@@ -20,7 +20,7 @@ class Produto(Base):
     preco = Column(Float)
     quantidade = Column(Integer)
 
-    fornecedores = relationship("Fornecedor", secondary=produto_fornecedor, back_populates="produtos")
+    fornecedores = relationship("Fornecedor", secondary=Produto_fornecedor, back_populates="produtos")
     itens_comprados = relationship("Item", back_populates="produto_referenciado")
 
     def __init__(self, id_produto, nome, preco, quantidade):
@@ -66,7 +66,11 @@ class Fornecedor(Base):
     id_fornecedor = Column(Integer, primary_key=True)
     nome = Column(String)
 
-    produtos = relationship("Produto", secondary=produto_fornecedor, back_populates="fornecedores")
+    produtos = relationship("Produto", secondary=Produto_fornecedor, back_populates="fornecedores")
+
+    def __init__(self, id_fornecedor, nome):
+        self.id_fornecedor = id_fornecedor
+        self.nome = nome
 
     def __str__(self):
         return f'{self.id_fornecedor}, {self.nome}'
@@ -85,3 +89,4 @@ class Item(Base):
 
     def __str__(self):
         return f'{self.id_item}, {self.quantidade}, {self.preco}, {self.id_compra}, {self.id_produto}'
+

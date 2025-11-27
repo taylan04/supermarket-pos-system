@@ -1,7 +1,13 @@
-from consultas import *
+from SIG.Consultas.consultas_clientes import *
+from SIG.excel_utils import *
 
-def gerenciar_sig():
-    '''escolha_inicial()
+df1 = ler_excel_fornecedores()
+df2 = ler_excel_fornecedores_produtos()
+carregar_fornecedores_no_banco(df1)
+carregar_produtos_fornecedores_no_banco(df2)
+
+'''def gerenciar_sig():
+    escolha_inicial()
     opcao_inicial = entrar_inteiro_zero_permitido("\nOpção: ")
 
     if opcao_inicial == 0:
@@ -35,6 +41,6 @@ def gerenciar_sig():
                         else:
                             break
                     case __:
-                        print("\nDigite um número válido.")'''
+                        print("\nDigite um número válido.")
 
-gerenciar_sig()
+gerenciar_sig()'''

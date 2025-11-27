@@ -1,4 +1,4 @@
-from Servicos_db.db_produtos import *
+from Servicos_caixa_db.db_produtos import *
 from util import *
 from tabulate import tabulate
 

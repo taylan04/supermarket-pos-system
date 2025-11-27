@@ -1,6 +1,5 @@
 from urllib.request import urlopen
 import pandas as pd
-import csv
 from bs4 import BeautifulSoup
 
 URL = "https://pedrovncs.github.io/lindosprecos/produtos.html#"

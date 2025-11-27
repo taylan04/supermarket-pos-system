@@ -1,7 +1,7 @@
 import pandas as pd
+from SIG.Servicos_db.db_fornecedor import *
 from models import *
-from db_fornecedor import *
-from conexao import session
+from conexao import *
 
 def ler_excel_fornecedores():
     df = pd.read_excel("dados/carga_fornecedores_produtos.xlsx", sheet_name='fornecedores')
