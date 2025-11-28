@@ -49,6 +49,7 @@ def finalizar_atendimento(cliente, carrinho, registros):
         print(f"Total gasto: R${round(total_valor, 2)}")
 
         adicionar_registro(registros, cliente.nome, total_valor)
+        
         #adicionar na tabela compras
         id_compra = gerar_proximo_id_compra()
         compra = Compra(id_compra, data, cliente.id_cliente)

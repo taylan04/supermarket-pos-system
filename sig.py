@@ -1,46 +1,32 @@
 from SIG.Consultas.consultas_clientes import *
 from SIG.excel_util import *
+from SIG.menu import *
+from util import *
 
-df1 = ler_excel_fornecedores()
-df2 = ler_excel_fornecedores_produtos()
-carregar_fornecedores_no_banco(df1)
-carregar_produtos_fornecedores_no_banco(df2)
 
-'''def gerenciar_sig():
-    escolha_inicial()
+def gerenciar_sig():
+    menu_inicial()
     opcao_inicial = entrar_inteiro_zero_permitido("\nOpção: ")
 
     if opcao_inicial == 0:
-        print("\nCaixa continua fechado!")
+        print("\nSIG não acessado. Volte sempre!")
         return
 
     elif opcao_inicial == 1:
-        executar_todos_os_processos()
-        popular_banco()
-        registros = []
+        executar_carga_fornecedores_e_produtos()
 
-        # Esse while é para continuar atendendo vários clientes até fechar o caixa
         while True:
-            cliente = consultar_ou_cadastrar_cliente()
-            carrinho = []
+            menu_secundario()
+            opcao_inicial = entrar_inteiro_zero_permitido("\nOpção: ")
 
-            # Esse while é para continuar no menu do mesmo cliente até ele finalizar o atendimento
-            while True:
-                menu(cliente)
-                opcao = entrar_inteiro("\nDigite o número de sua opção: ")
+            if opcao_inicial == 0:
+                pass
 
-                match opcao:
-                    case 1:
-                        carrinho = adicionar_carrinho(carrinho)
-                    case 2:
-                        deve_sair, carrinho, registros = processar_fechamento_atendimento(cliente.nome, carrinho, registros)
+            elif opcao_inicial == 1:
+                pass
+            else:
+                print("\nDigite uma das opções.")
+                continue
 
-                        if deve_sair:  
-                            print("\nCaixa encerrado.")
-                            return
-                        else:
-                            break
-                    case __:
-                        print("\nDigite um número válido.")
 
-gerenciar_sig()'''
+gerenciar_sig()

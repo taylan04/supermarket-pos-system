@@ -22,3 +22,8 @@ def carregar_produtos_fornecedores_no_banco(df):
         session.execute(Produto_fornecedor.insert().values(id_fornecedor=row.id_fornecedor,id_produto=row.id_produto))
     session.commit()
 
+def executar_carga_fornecedores_e_produtos():
+    df1 = ler_excel_fornecedores()
+    df2 = ler_excel_fornecedores_produtos()
+    carregar_fornecedores_no_banco(df1)
+    carregar_produtos_fornecedores_no_banco(df2)
