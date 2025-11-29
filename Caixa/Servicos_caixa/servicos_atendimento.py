@@ -1,12 +1,12 @@
-from menu import *
+from Caixa.menu import *
 from util import *
-from arquivo import *
+from Caixa.arquivo import *
 import pandas as pd
 from tabulate import tabulate
 from .servicos_produto import *
 from .servicos_registros import *
 from .servicos_carrinho import *
-from Servicos_caixa_db.db_produtos import *
+from Caixa.Servicos_caixa_db.db_produtos import *
 from models import *
 from SIG.Servicos_db.db_compra import *
 from SIG.Dao_sig.dao_compra import *
@@ -24,8 +24,8 @@ def dar_baixa_no_estoque(carrinho):
         for produto in produtos:
             if item["id_produto"] == produto.id_produto:
                 quantidade_retirada = item["quantidade"]
-                produto_atualizado = Produto(produto.id_produto, produto.nome, produto.preco, produto.quantidade - quantidade_retirada)
-                atualizar_produto(produto_atualizado)
+                nova_qtd = produto.quantidade - quantidade_retirada
+                atualizar_produto(produto.id_produto, {"quantidade": nova_qtd})
 
 def finalizar_atendimento(cliente, carrinho, registros):
     data = datetime.datetime.now()

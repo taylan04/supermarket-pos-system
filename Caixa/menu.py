@@ -11,7 +11,7 @@ def escolha_inicial():
 
 def menu(cliente):
     print("\n===== CAIXA =====")
-    print(f"\nOlá cliente {cliente.nome}, vamos às compras.")
-    print("[1] - Adicionar produto")
+    print(f"\nOlá {cliente.nome}, vamos finalizar sua compra.\n")
+    print("[1] - Adicionar produto na compra")
     print("[2] - Finalizar Atendimento")
 

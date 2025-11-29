@@ -2,8 +2,8 @@ import csv
 import pandas as pd
 from models import *
 from conexao import *
-from Servicos_caixa_db.db_produtos import *
-from Servicos_caixa_db.db_clientes import *
+from Caixa.Servicos_caixa_db.db_produtos import *
+from Caixa.Servicos_caixa_db.db_clientes import *
 
 def abertura_caixa():
     produtos = consultar_produtos()
@@ -16,16 +16,12 @@ def abertura_caixa():
                 if len(linha) == 3:
                     if not produtos:
                         nome, preco, estoque = linha[0], float(linha[1]), int(linha[2])
-                        iniciar_banco(nome, preco, estoque)
+                        produto = Produto(None,nome,preco,estoque)
+                        adicionar_produto(produto)
                     else:
                         pass
     except Exception as e:
         print(f"Erro ao ler arquivo: {e}")
-
-def iniciar_banco(nome, preco, estoque):
-    with session:
-        session.add(Produto(None, nome, preco, estoque))
-        session.commit()
 
 def iniciar_clientes():
     df = pd.read_json("dados/clientes.json")

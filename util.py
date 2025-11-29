@@ -1,5 +1,5 @@
 import datetime
-from arquivo import *
+from Caixa.arquivo import *
 
 def entrar_inteiro(msg):
     opcao = 0

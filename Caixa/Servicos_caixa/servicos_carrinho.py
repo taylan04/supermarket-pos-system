@@ -1,4 +1,4 @@
-from Servicos_caixa_db.db_produtos import *
+from Caixa.Servicos_caixa_db.db_produtos import *
 from util import *
 from tabulate import tabulate
 
@@ -30,7 +30,7 @@ def adicionar_produto_carrinho(carrinho, id_produto, quantidade):
     }
     
     carrinho.append(item_carrinho)
-    print(f"\nProduto {produto.nome} adicionado ao carrinho!")
+    print(f"\nProduto {produto.nome} adicionado na compra!")
     return carrinho
 
 def listar_carrinho(carrinho):

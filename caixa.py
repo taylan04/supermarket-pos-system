@@ -1,10 +1,10 @@
-from menu import *
+from Caixa.menu import *
 from util import *
-from arquivo import *
-from Servicos_caixa.servicos_atendimento import *
+from Caixa.arquivo import *
+from Caixa.Servicos_caixa.servicos_atendimento import *
 from WebScraping.produtoslp import *
-from Servicos_caixa.servicos_cliente import *
-from Servicos_caixa.servicos_carrinho import *
+from Caixa.Servicos_caixa.servicos_cliente import *
+from Caixa.Servicos_caixa.servicos_carrinho import *
 
 def gerenciar_caixa():
     escolha_inicial()
