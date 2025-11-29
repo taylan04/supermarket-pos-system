@@ -21,7 +21,7 @@ def entrar_inteiro_zero_permitido(msg):
             if opcao >= 0:
                 return opcao
             else:
-                print("\nDigite um numero maior que zero!")
+                print("\nDigite um numero maior ou igual a zero!")
         except Exception as e:
             print(f"\nErro: número inválido. Digite um número inteiro\n{e}")
 

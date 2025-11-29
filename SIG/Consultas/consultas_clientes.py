@@ -1,4 +1,4 @@
-from Servicos_caixa_db.db_clientes import *
+from Caixa.Servicos_caixa_db.db_clientes import *
 from tabulate import tabulate
 import pandas as pd
 

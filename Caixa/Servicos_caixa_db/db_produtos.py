@@ -1,6 +1,7 @@
 from conexao import *
 from models import *
 from sqlalchemy.orm import joinedload
+from SIG.Servicos_db.db_fornecedor import *
 
 def adicionar_produto(produto):
     with session:
@@ -35,3 +36,12 @@ def remover_produto(produto):
         session.delete(produto)
         session.commit()
 
+def remover_fornecedor_do_produto(produto, fornecedor):
+    with session:
+        produto.fornecedores.remove(fornecedor)
+        session.commit()
+
+def adicionar_fornecedor_ao_produto(produto, fornecedor):
+    with session:
+        produto.fornecedores.append(fornecedor)
+        session.commit()

@@ -35,3 +35,35 @@ def produtos_esgotados():
     for produto in produtos:
         tabela.append([produto.nome, produto.quantidade])
     print(f"\n{tabulate(tabela, headers="firstrow", tablefmt="rounded_outline")}")
+
+def remover_fornecedor(id_produto, id_fornecedor):
+    produto = pesquisar_produto(id_produto)
+    fornecedor = consultar_fornecedor(id_fornecedor)
+
+    if not produto or not fornecedor:
+        print("\nProduto ou fornecedor não encontrado.")
+        return
+
+    if fornecedor not in produto.fornecedores:
+        print("\nEste fornecedor não está associado a este produto.")
+        return
+
+    remover_fornecedor_do_produto(produto, fornecedor)
+
+    print(f"\nFornecedor {fornecedor.nome} removido do produto {produto.nome}.")
+
+def adicionar_fornecedor(id_produto, id_fornecedor):
+    produto = pesquisar_produto(id_produto)
+    fornecedor = consultar_fornecedor(id_fornecedor)
+
+    if not produto or not fornecedor:
+        print("\nProduto ou fornecedor não encontrado.")
+        return
+
+    if fornecedor in produto.fornecedores:
+        print("\nEste fornecedor já está associado a este produto.")
+        return
+
+    adicionar_fornecedor_ao_produto(produto, fornecedor)
+
+    print(f"\nFornecedor {fornecedor.nome} adicionado ao produto {produto.nome}.")
