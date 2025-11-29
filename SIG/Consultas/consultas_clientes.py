@@ -5,8 +5,8 @@ import pandas as pd
 def exibir_compras_do_cliente(id):
     cliente = pesquisar_cliente(id)
 
-    compras_ordenadas = sorted(cliente.compras, key=lambda c: c.data_hora)
-    dados = [[c.id, c.data_hora] for c in compras_ordenadas]
+    compras_ordenadas = sorted(cliente.compras, key=lambda c: c.data_hora, reverse=True)
+    dados = [[c.id_compra, c.data_hora] for c in compras_ordenadas]
     df = pd.DataFrame(dados, columns=["Compra ID", "Data e Hora"])
     print("\n" + tabulate(df.values, headers=df.columns, tablefmt="rounded_outline"))
 
@@ -41,8 +41,18 @@ def exibir_clientes_mais_compram():
     df_exibir = pd.DataFrame(comprados, columns=["Cliente ID", "nome", "Qtd. Compras"])
     print("\n" + tabulate(df_exibir.values, headers=df_exibir.columns, tablefmt="grid"))
 
+def exibir_clientes_sem_compras():
+    clientes = consultar_clientes()
     
-
+    clientes_sem_compras = [cliente for cliente in clientes if len(cliente.compras) == 0]
+    
+    if not clientes_sem_compras:
+        print("\nNão há clientes sem compras.")
+        return
+    
+    dados = [[c.id_cliente, c.nome] for c in clientes_sem_compras]
+    df = pd.DataFrame(dados, columns=["Cliente ID", "Nome"])
+    print("\n" + tabulate(df.values, headers=df.columns, tablefmt="rounded_outline"))
 
 
 
