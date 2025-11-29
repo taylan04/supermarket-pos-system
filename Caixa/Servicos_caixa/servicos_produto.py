@@ -15,14 +15,72 @@ def listar_produtos():
         tabela.append([id, nome, quantidade, preco])
     print(f"\n{tabulate(tabela, headers="firstrow", tablefmt="rounded_outline")}")
 
-def excluir_produto_carrinho(carrinho):
+def adicionar_produto_novo():
+    #ultimo_id = gerar_proximo_id(Produto.id_produto)
+    nome = entrar_string("\nDigite o nome do produto: ")
+    preco = entrar_float("\nDigite o preço unitário desse produto: ")
+    quantidade = entrar_inteiro_zero_permitido("\nDigite a quantidade atual em estoque: ")
+    produto = Produto(None, nome, preco, quantidade)
+    adicionar_produto(produto)
+
+def remover_produto_do_banco():
+    id_produto = entrar_inteiro("\nDigite o ID do produto que deseja remover: ")
+    produto = pesquisar_produto(id_produto)
+
+    if not produto:
+        print("\nProduto não encontrado.")
+        return
+    
+    remover_produto(produto)
+    print("\nRemovido.")
+
+def atualizar_dados_do_produto():
+    id_produto = entrar_inteiro("\ndigite o id do produto que deseja atualizar: ")
+    produto = pesquisar_produto(id_produto)
+
+    if not produto:
+        print("\nproduto não encontrado.")
+        return
+
+    print(f"\nProduto selecionado: {produto.nome}")
+    print("o que deseja atualizar?")
+    print("1 - nome")
+    print("2 - preço")
+    print("3 - quantidade em estoque")
+    print("4 - cancelar")
+
+    opcao = entrar_inteiro("\nescolha uma opção: ")
+
+    if opcao == 1:
+        novo_nome = entrar_string("\ndigite o novo nome: ")
+        atualizar_produto(id_produto, {"nome": novo_nome})
+        print("\nnome atualizado com sucesso.")
+
+    elif opcao == 2:
+        novo_preco = entrar_float("\ndigite o novo preço: ")
+        atualizar_produto(id_produto, {"preco": novo_preco})
+        print("\npreço atualizado com sucesso.")
+
+    elif opcao == 3:
+        nova_quantidade = entrar_inteiro_zero_permitido("\ndigite a nova quantidade em estoque: ")
+        atualizar_produto(id_produto, {"quantidade": nova_quantidade})
+        print("\nquantidade atualizada com sucesso.")
+
+    elif opcao == 4:
+        print("\ncancelado.")
+        return
+
+    else:
+        print("\nopção inválida.")
+
+'''def excluir_produto_carrinho(carrinho):
     if not carrinho:
         print("\nCarrinho vazio!")
         return carrinho
     
     produto_id = entrar_inteiro("\nDigite o ID do produto que deseja excluir do carrinho: ")
     carrinho = remover_produto_carrinho(carrinho, produto_id)
-    return carrinho
+    return carrinho'''
 
 def produtos_esgotados():
     produtos = produtos_sem_estoque()

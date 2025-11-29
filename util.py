@@ -1,5 +1,7 @@
 import datetime
 from Caixa.arquivo import *
+from sqlalchemy import func
+from conexao import session
 
 def entrar_inteiro(msg):
     opcao = 0
@@ -25,6 +27,18 @@ def entrar_inteiro_zero_permitido(msg):
         except Exception as e:
             print(f"\nErro: número inválido. Digite um número inteiro\n{e}")
 
+def entrar_float(msg):
+    opcao = 0
+    while True:
+        try:
+            opcao = float(input(msg))
+            if opcao > 0:
+                return opcao
+            else:
+                print("\nDigite um numero maior que zero!")
+        except Exception as e:
+            print(f"\nErro: número inválido. Digite um número válido.\n{e}")
+
 def entrar_string(msg):
     resultado = input(msg)
     return resultado
@@ -36,6 +50,13 @@ def hora_e_data_atual():
 def popular_banco():
     abertura_caixa()
     iniciar_clientes()
+
+def gerar_proximo_id(objeto_com_id):
+    #func.max pega o ID maximo que tem na tabela compras e o scalar me devolve apenas o numero, sem me retornaria objeto
+    ultimo = session.query(func.max(objeto_com_id)).scalar()
+    if ultimo is None:
+        return 1
+    return ultimo + 1
 
 # cliente
 

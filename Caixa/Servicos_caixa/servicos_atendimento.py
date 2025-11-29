@@ -51,7 +51,7 @@ def finalizar_atendimento(cliente, carrinho, registros):
         adicionar_registro(registros, cliente.nome, total_valor)
         
         #adicionar na tabela compras
-        id_compra = gerar_proximo_id_compra()
+        id_compra = gerar_proximo_id(Compra.id_compra)
         compra = Compra(id_compra, data, cliente.id_cliente)
         adicionar_compra(compra)
         salvar_itens_da_compra_db(carrinho, id_compra)
