@@ -3,9 +3,7 @@ from tabulate import tabulate
 from util import *
 import pandas as pd
 
-def exibir_compra():
-    id_compra = entrar_inteiro("\nDigite o ID da compra que deseja consultar: ")
-
+def exibir_compra(id_compra):
     compra = consultar_compra(id_compra)
     
     if not compra:

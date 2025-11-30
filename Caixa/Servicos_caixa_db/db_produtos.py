@@ -10,7 +10,7 @@ def adicionar_produto(produto):
 
 def consultar_produtos():
     with session:
-        produtos = session.query(Produto).options(joinedload(Produto.fornecedores)).all()
+        produtos = session.query(Produto).options(joinedload(Produto.fornecedores), joinedload(Produto.itens_comprados)).all()
   
     return produtos
 
@@ -33,8 +33,11 @@ def atualizar_produto(id_produto, campos):
 
 def remover_produto(produto):
     with session:
-        session.delete(produto)
-        session.commit()
+        produto_atual = session.query(Produto).options(joinedload(Produto.fornecedores)).get(produto.id_produto)
+        if produto_atual:
+            produto_atual.fornecedores.clear()
+            session.delete(produto_atual)
+            session.commit()
 
 def remover_fornecedor_do_produto(produto, fornecedor):
     with session:
@@ -43,5 +46,6 @@ def remover_fornecedor_do_produto(produto, fornecedor):
 
 def adicionar_fornecedor_ao_produto(produto, fornecedor):
     with session:
-        produto.fornecedores.append(fornecedor)
+        produto_atual = session.query(Produto).options(joinedload(Produto.fornecedores)).get(produto.id_produto)
+        produto_atual.fornecedores.append(fornecedor)
         session.commit()

@@ -12,15 +12,17 @@ def ler_excel_fornecedores_produtos():
     return df
 
 def carregar_fornecedores_no_banco(df):
-    for row in df.itertuples():
-        fornecedor = Fornecedor(row.id_fornecedor, row.nome)
-        adicionar_fornecedor(fornecedor)
+    fornecedores = consultar_fornecedores()
+    if not fornecedores:
+        for row in df.itertuples():
+            fornecedor = Fornecedor(row.id_fornecedor, row.nome)
+            adicionar_fornecedor(fornecedor)
 
 def carregar_produtos_fornecedores_no_banco(df):
-    #pesquisei e tive que fazer dessa forma porque a tabela intermediária não é uma classe do ORM entao nao tem session.add
-    for row in df.itertuples():
-        session.execute(Produto_fornecedor.insert().values(id_fornecedor=row.id_fornecedor,id_produto=row.id_produto))
-    session.commit()
+    produtos_fornecedores = consultar_produtos_fornecedores()
+    if not produtos_fornecedores:
+        for row in df.itertuples():
+            adicionar_produto_fornecedor(row)
 
 def executar_carga_fornecedores_e_produtos():
     df1 = ler_excel_fornecedores()

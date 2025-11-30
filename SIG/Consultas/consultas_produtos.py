@@ -1,11 +1,13 @@
 from SIG.Servicos_db.db_item import *
 from Caixa.Servicos_caixa_db.db_produtos import *
 from util import *
-from tabulate import tabulate
-import pandas as pd
 
 def produtos_mais_vendidos_e_menos_vendidos():
     produtos = consultar_produtos()
+
+    if all(not produto.itens_comprados for produto in produtos):
+        print("\nNenhum produto foi vendido no momento atual.")
+        return
 
     produtos_ordenados = sorted(produtos,key=lambda produto: len(produto.itens_comprados),reverse=True)
 
@@ -28,9 +30,9 @@ def produtos_com_pouco_estoque():
         print("\nnenhum produto encontrado com estoque menor ou igual ao parâmetro informado.\n")
         return
 
-    print("\nProdutos com pouco estoque:\n")
+    print("\nProdutos com pouco estoque:")
     for produto in produtos:
-        print(produto.__str__())
+        print(f"\nID: {produto.id_produto}\n{produto.nome}\nQuantidade: {produto.quantidade}")
 
 def fornecedores_do_produto():
     id_produto = entrar_inteiro("\nDigite o ID do produto: ")
@@ -38,6 +40,10 @@ def fornecedores_do_produto():
 
     if not produto:
         print("\nProduto não encontrado.")
+        return
+    
+    if not produto.fornecedores:
+        print("\nEsse produto não tem fornecedores. =(")
         return
     
     print("\nFornecedores\n")

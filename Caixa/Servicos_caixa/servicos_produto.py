@@ -1,7 +1,11 @@
 from Caixa.Servicos_caixa_db.db_produtos import *
+from SIG.Servicos_db.db_fornecedor import *
 from .servicos_carrinho import *
 from util import *
 from tabulate import tabulate
+from conexao import session
+from models import *
+from sqlalchemy.orm import joinedload
 
 def listar_produtos():
     produtos = consultar_produtos()
@@ -16,12 +20,13 @@ def listar_produtos():
     print(f"\n{tabulate(tabela, headers="firstrow", tablefmt="rounded_outline")}")
 
 def adicionar_produto_novo():
-    #ultimo_id = gerar_proximo_id(Produto.id_produto)
+    ultimo_id = gerar_proximo_id(Produto.id_produto)
     nome = entrar_string("\nDigite o nome do produto: ")
     preco = entrar_float("\nDigite o preço unitário desse produto: ")
     quantidade = entrar_inteiro_zero_permitido("\nDigite a quantidade atual em estoque: ")
-    produto = Produto(None, nome, preco, quantidade)
+    produto = Produto(ultimo_id, nome, preco, quantidade)
     adicionar_produto(produto)
+    return ultimo_id
 
 def remover_produto_do_banco():
     id_produto = entrar_inteiro("\nDigite o ID do produto que deseja remover: ")
@@ -40,38 +45,71 @@ def atualizar_dados_do_produto():
 
     if not produto:
         print("\nproduto não encontrado.")
-        return
+        return None
 
-    print(f"\nProduto selecionado: {produto.nome}")
-    print("o que deseja atualizar?")
-    print("1 - nome")
-    print("2 - preço")
-    print("3 - quantidade em estoque")
-    print("4 - cancelar")
+    while True:
+        print(f"\nProduto selecionado: {produto.nome}")
+        print("o que deseja atualizar?")
+        print("1 - nome")
+        print("2 - preço")
+        print("3 - quantidade em estoque")
+        print("4 - adicionar fornecedor")
+        print("5 - remover fornecedor")
+        print("6 - cancelar")
 
-    opcao = entrar_inteiro("\nescolha uma opção: ")
+        opcao = entrar_inteiro("\nescolha uma opção: ")
 
-    if opcao == 1:
-        novo_nome = entrar_string("\ndigite o novo nome: ")
-        atualizar_produto(id_produto, {"nome": novo_nome})
-        print("\nnome atualizado com sucesso.")
+        if opcao == 1:
+            novo_nome = entrar_string("\ndigite o novo nome: ")
+            atualizar_produto(id_produto, {"nome": novo_nome})
+            print("\nnome atualizado com sucesso.")
+            produto = pesquisar_produto(id_produto)
 
-    elif opcao == 2:
-        novo_preco = entrar_float("\ndigite o novo preço: ")
-        atualizar_produto(id_produto, {"preco": novo_preco})
-        print("\npreço atualizado com sucesso.")
+        elif opcao == 2:
+            novo_preco = entrar_float("\ndigite o novo preço: ")
+            atualizar_produto(id_produto, {"preco": novo_preco})
+            print("\npreço atualizado com sucesso.")
+            produto = pesquisar_produto(id_produto)
 
-    elif opcao == 3:
-        nova_quantidade = entrar_inteiro_zero_permitido("\ndigite a nova quantidade em estoque: ")
-        atualizar_produto(id_produto, {"quantidade": nova_quantidade})
-        print("\nquantidade atualizada com sucesso.")
+        elif opcao == 3:
+            nova_quantidade = entrar_inteiro_zero_permitido("\ndigite a nova quantidade em estoque: ")
+            atualizar_produto(id_produto, {"quantidade": nova_quantidade})
+            print("\nquantidade atualizada com sucesso.")
+            produto = pesquisar_produto(id_produto)
 
-    elif opcao == 4:
-        print("\ncancelado.")
-        return
+        elif opcao == 4:
+            fornecedores = consultar_fornecedores()
+            if not fornecedores:
+                print("\nNão há fornecedores cadastrados.")
+                continue
+            
+            print("\nFornecedores disponíveis:")
+            for f in fornecedores:
+                print(f"ID: {f.id_fornecedor}, Nome: {f.nome}")
+            
+            id_fornecedor = entrar_inteiro("\nDigite o ID do fornecedor: ")
+            adicionar_fornecedor(id_produto, id_fornecedor)
+            produto = pesquisar_produto(id_produto)
 
-    else:
-        print("\nopção inválida.")
+        elif opcao == 5:
+            if not produto.fornecedores:
+                print("\nEste produto não possui fornecedores associados.")
+                continue
+            
+            print("\nFornecedores do produto:")
+            for f in produto.fornecedores:
+                print(f"ID: {f.id_fornecedor}, Nome: {f.nome}")
+            
+            id_fornecedor = entrar_inteiro("\nDigite o ID do fornecedor a remover: ")
+            remover_fornecedor(id_produto, id_fornecedor)
+            produto = pesquisar_produto(id_produto)
+
+        elif opcao == 6:
+            print("\ncancelado.")
+            return
+
+        else:
+            print("\nopção inválida.")
 
 '''def excluir_produto_carrinho(carrinho):
     if not carrinho:
@@ -95,8 +133,8 @@ def produtos_esgotados():
     print(f"\n{tabulate(tabela, headers="firstrow", tablefmt="rounded_outline")}")
 
 def remover_fornecedor(id_produto, id_fornecedor):
-    produto = pesquisar_produto(id_produto)
-    fornecedor = consultar_fornecedor(id_fornecedor)
+    produto = session.query(Produto).options(joinedload(Produto.fornecedores)).get(id_produto)
+    fornecedor = session.query(Fornecedor).get(id_fornecedor)
 
     if not produto or not fornecedor:
         print("\nProduto ou fornecedor não encontrado.")
@@ -106,13 +144,14 @@ def remover_fornecedor(id_produto, id_fornecedor):
         print("\nEste fornecedor não está associado a este produto.")
         return
 
-    remover_fornecedor_do_produto(produto, fornecedor)
+    produto.fornecedores.remove(fornecedor)
+    session.commit()
 
     print(f"\nFornecedor {fornecedor.nome} removido do produto {produto.nome}.")
 
 def adicionar_fornecedor(id_produto, id_fornecedor):
-    produto = pesquisar_produto(id_produto)
-    fornecedor = consultar_fornecedor(id_fornecedor)
+    produto = session.query(Produto).options(joinedload(Produto.fornecedores)).get(id_produto)
+    fornecedor = session.query(Fornecedor).get(id_fornecedor)
 
     if not produto or not fornecedor:
         print("\nProduto ou fornecedor não encontrado.")
@@ -122,6 +161,7 @@ def adicionar_fornecedor(id_produto, id_fornecedor):
         print("\nEste fornecedor já está associado a este produto.")
         return
 
-    adicionar_fornecedor_ao_produto(produto, fornecedor)
+    produto.fornecedores.append(fornecedor)
+    session.commit()
 
     print(f"\nFornecedor {fornecedor.nome} adicionado ao produto {produto.nome}.")

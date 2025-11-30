@@ -24,3 +24,13 @@ def remover_fornecedor(id):
         fornecedor = session.get(Fornecedor, id)
         session.delete(fornecedor)
         session.commit()
+
+def adicionar_produto_fornecedor(obj):
+    with session:
+        session.execute(Produto_fornecedor.insert().values(id_fornecedor=obj.id_fornecedor,id_produto=obj.id_produto))
+        session.commit()
+
+def consultar_produtos_fornecedores():
+    with session:
+        produtos_fornecedores = session.query(Produto_fornecedor).all()
+    return produtos_fornecedores

@@ -1,19 +1,22 @@
+def menu_inicial():
+    print("\n[0] - Acessar SIG")
+    print("[1] - Sair")
+
 def menu_principal():
     print("\n[0] - Clientes")
     print("[1] - Produtos")
-    print("[2] - Sair")
+    print("[2] - Voltar")
 
 def menu_clientes():
     print("\n[0] - Clientes com compras")
     print("[1] - Clientes sem compras")
-    print("[2] - Voltar")
+    print("[2] - Início")
 
 def menu_clientes_com_compras():
     print("\n[0] - Consultar compras de um cliente")
-    print("[1] - Consultar uma compra específica")
-    print("[2] - Clientes que mais compram")
-    print("[3] - Clientes que mais gastam")
-    print("[4] - Voltar")
+    print("[1] - Clientes que mais compram")
+    print("[2] - Clientes que mais gastam")
+    print("[3] - Voltar")
 
 def menu_produtos():
     print("\n[0] - Cadastrar produto")
@@ -21,7 +24,7 @@ def menu_produtos():
     print("[2] - Alterar produto")
     print("[3] - Remover produto")
     print("[4] - Consultas")
-    print("[5] - Voltar")
+    print("[5] - Início")
 
 def menu_consultas_produtos():
     print("\n[0] - Produtos mais vendidos e menos vendidos")

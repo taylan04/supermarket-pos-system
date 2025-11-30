@@ -23,11 +23,11 @@ def exibir_clientes_mais_gastam():
     df = pd.DataFrame(lista)
     gastos = df.groupby(["id_cliente", "cliente"])["total_gasto"].sum().reset_index().sort_values("total_gasto", ascending=False)
 
-    df_exibir = pd.DataFrame(gastos, columns=["Cliente ID", "nome", "Total Gasto"])
-    print("\n" + tabulate(df_exibir.values, headers=df_exibir.columns, tablefmt="grid"))
+    gastos.columns = ["Cliente ID", "nome", "Total Gasto"]
+    print("\n" + tabulate(gastos.values, headers=gastos.columns, tablefmt="rounded_outline"))
     
 def exibir_clientes_mais_compram():
-    clientes = consultar_clientes()
+    clientes = [cliente for cliente in consultar_clientes() if cliente.compras]
 
     lista = []
 
@@ -38,8 +38,8 @@ def exibir_clientes_mais_compram():
     df = pd.DataFrame(lista)
     comprados = df.sort_values("total_comprado", ascending=False)
 
-    df_exibir = pd.DataFrame(comprados, columns=["Cliente ID", "nome", "Qtd. Compras"])
-    print("\n" + tabulate(df_exibir.values, headers=df_exibir.columns, tablefmt="grid"))
+    comprados.columns = ["Cliente ID", "nome", "Qtd. Compras"]
+    print("\n" + tabulate(comprados.values, headers=comprados.columns, tablefmt="rounded_outline"))
 
 def exibir_clientes_sem_compras():
     clientes = consultar_clientes()
