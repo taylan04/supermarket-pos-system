@@ -66,7 +66,6 @@ def gerenciar_fornecedores_produto(id_produto):
         return
     
     while True:
-        print(f"\nProduto: {produto.nome}")
         print("\n[0] - Adicionar fornecedor")
         print("[1] - Finalizar")
         
@@ -86,6 +85,7 @@ def gerenciar_fornecedores_produto(id_produto):
                 id_fornecedor = entrar_inteiro("\nDigite o ID do fornecedor: ")
                 fornecedor = consultar_fornecedor(id_fornecedor)
                 adicionar_fornecedor_ao_produto(produto, fornecedor)
+                print("\nFornecedor adicionado!")
                 
             case 1:
                 return    
