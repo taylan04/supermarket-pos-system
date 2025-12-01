@@ -50,6 +50,7 @@ def gerenciar_clientes():
         
         match opcao:
             case 0:
+                exibir_clientes_com_compras()
                 gerenciar_clientes_com_compras()        
             case 1:
                 exibir_clientes_sem_compras()

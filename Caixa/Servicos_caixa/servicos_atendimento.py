@@ -29,17 +29,17 @@ def dar_baixa_no_estoque(carrinho):
 def finalizar_atendimento(cliente, carrinho, registros):
     data = datetime.datetime.now()
     print(f"\nAtendimento do {cliente.nome} finalizado!")
-    print(f"Data: {data.strftime("%d/%m/%Y")} {data.strftime("%H:%M")}")
+    print(f"Data: {data.strftime("%d/%m/%Y %H:%M")}")
 
     if not carrinho:
         print("\nCarrinho Vazio.")
     else:
         tabela = []
         for item in carrinho:
-            tabela.append([item["id"], item["nome"], item["quantidade"], item["valor"]])
+            tabela.append([item["id"], item["nome"], item["quantidade"], item["preco uni"], item["valor"]])
 
-        df = pd.DataFrame(tabela, columns=["Item", "Produto", "Quantidade", "Total"])
-        df = df.groupby("Produto").agg({"Quantidade":"sum", "Total":"sum"}).reset_index()
+        df = pd.DataFrame(tabela, columns=["Item", "Produto", "Quantidade", "Preço Uni.", "Total"])
+        df = df.groupby("Produto").agg({"Quantidade":"sum", "Preço Uni.": "first", "Total":"sum"}).reset_index()
         total_itens = len(df)
         total_valor = df["Total"].sum()
 
@@ -62,7 +62,7 @@ def finalizar_atendimento(cliente, carrinho, registros):
 def encerrar_atendimento(registros):
     data = datetime.datetime.now()
     print("\nFechamento do caixa!")
-    print(f"Data: {data.strftime("%d/%m/%Y")} {data.strftime("%H:%M")}")
+    print(f"Data: {data.strftime("%d/%m/%Y %H:%M")}")
 
     if not registros:
         tabela = [["Sem registro de clientes"]]

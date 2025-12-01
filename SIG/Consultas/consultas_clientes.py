@@ -2,6 +2,13 @@ from Caixa.Servicos_caixa_db.db_clientes import *
 from tabulate import tabulate
 import pandas as pd
 
+def exibir_clientes_com_compras():
+    clientes = consultar_clientes()
+    dados = [[c.id_cliente, c.nome, len(c.compras)] for c in clientes]
+    df = pd.DataFrame(dados, columns=["ID", "Cliente", "Quantidade de compras"])
+    df = df.sort_values("Quantidade de compras", ascending=False)
+    print("\n" + tabulate(df.values, headers=df.columns, tablefmt="rounded_outline"))
+
 def exibir_compras_do_cliente(id):
     cliente = pesquisar_cliente(id)
 

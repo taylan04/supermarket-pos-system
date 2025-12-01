@@ -18,11 +18,12 @@ def exibir_compra(id_compra):
     
     itens = []
     for item in compra.itens:
-        itens.append([item.produto_referenciado.nome, item.quantidade, item.preco])
+        itens.append([item.produto_referenciado.nome, item.quantidade, item.produto_referenciado.preco, item.preco])
     
-    df = pd.DataFrame(itens, columns=["Produto", "Quantidade", "Preço"])
+    df = pd.DataFrame(itens, columns=["Produto", "Quantidade", "Preço Uni.","Preço"])
 
-    df_agrupado = df.groupby("Produto", as_index=False).agg({"Quantidade": "sum","Preço": "sum"})
+    df_agrupado = df.groupby("Produto", as_index=False).agg({"Quantidade": "sum","Preço Uni.": "first","Preço": "sum"})
+    df_agrupado.insert(0, "Item", range(1, len(df_agrupado) + 1))
 
     valor_total_compra = sum(item.preco for item in compra.itens)
     
