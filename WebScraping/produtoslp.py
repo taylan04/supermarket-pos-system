@@ -8,7 +8,7 @@ def acessar_url(url):
     try:
         html = urlopen(url)
     except Exception as ex:
-        print(ex)
+        print(f"Erro ao acessar a URL: {ex}")
         exit()
     return html
 
@@ -30,7 +30,7 @@ def extrair_dados(tag):
             quantidade = produto.find("p", {"data-qtd": True}).text.strip()
             dados_produtos.append({"Nome": nome,"Preco": preco,"Quantidade": quantidade})
         except AttributeError as ex:
-            print(ex)
+            print(f"Erro ao extrair dados do produto: {ex}")
             continue 
             
     return dados_produtos
