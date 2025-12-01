@@ -9,7 +9,7 @@ from .servicos_carrinho import *
 from Caixa.Servicos_caixa_db.db_produtos import *
 from models import *
 from SIG.Servicos_db.db_compra import *
-from SIG.Dao_sig.dao_itens import *
+from SIG.Servicos.servicos_item import *
 
 # sem o . não funcionou, porque eu criei uma pasta para o serviços e sem o ponto ele procura
 # no diretório principal, com o ponto ele procura "aqui mesmo". ( pesquisei )
