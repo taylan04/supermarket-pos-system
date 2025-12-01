@@ -9,7 +9,7 @@ from .servicos_carrinho import *
 from Caixa.Servicos_caixa_db.db_produtos import *
 from models import *
 from SIG.Servicos_db.db_compra import *
-from SIG.Servicos.servicos_item import *
+from Caixa.Servicos_caixa.servicos_item import *
 
 # sem o . não funcionou, porque eu criei uma pasta para o serviços e sem o ponto ele procura
 # no diretório principal, com o ponto ele procura "aqui mesmo". ( pesquisei )
@@ -40,6 +40,7 @@ def finalizar_atendimento(cliente, carrinho, registros):
 
         df = pd.DataFrame(tabela, columns=["Item", "Produto", "Quantidade", "Preço Uni.", "Total"])
         df = df.groupby("Produto").agg({"Quantidade":"sum", "Preço Uni.": "first", "Total":"sum"}).reset_index()
+        df.insert(0, "Item", range(1, len(df) + 1))
         total_itens = len(df)
         total_valor = df["Total"].sum()
 
