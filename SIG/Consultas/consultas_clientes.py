@@ -9,6 +9,7 @@ def exibir_compras_do_cliente(id):
     dados = [[c.id_compra, c.data_hora] for c in compras_ordenadas]
     df = pd.DataFrame(dados, columns=["Compra ID", "Data e Hora"])
     print("\n" + tabulate(df.values, headers=df.columns, tablefmt="rounded_outline"))
+    print(f"\nTotal de compras: {len(cliente.compras)}")
 
 def exibir_clientes_mais_gastam():
     clientes = consultar_clientes()

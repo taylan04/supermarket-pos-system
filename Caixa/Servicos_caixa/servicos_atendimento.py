@@ -45,7 +45,7 @@ def finalizar_atendimento(cliente, carrinho, registros):
 
         print("\n" + tabulate(df.values, headers=df.columns, tablefmt="rounded_outline"))
         print(f"\nTotal de itens distintos comprados: {total_itens}")
-        print(f"Total gasto: R${round(total_valor, 2)}")
+        print(f"Total gasto: R$ {round(total_valor, 2)}")
 
         adicionar_registro(registros, cliente.nome, total_valor)
         
@@ -77,7 +77,7 @@ def encerrar_atendimento(registros):
     df = df.groupby("Cliente")['Total'].sum().reset_index()
     total_vendas = df['Total'].sum()
     print("\n" + tabulate(df.values, headers=df.columns, tablefmt="rounded_outline"))
-    print(f"Total de vendas: R${round(total_vendas, 2)}")
+    print(f"Total de vendas: R$ {round(total_vendas, 2)}")
 
 def processar_fechamento_atendimento(cliente, carrinho, registros):
     finalizar_atendimento(cliente, carrinho, registros)
