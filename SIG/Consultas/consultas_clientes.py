@@ -6,8 +6,8 @@ def exibir_compras_do_cliente(id):
     cliente = pesquisar_cliente(id)
 
     compras_ordenadas = sorted(cliente.compras, key=lambda c: c.data_hora, reverse=True)
-    dados = [[c.id_compra, c.data_hora] for c in compras_ordenadas]
-    df = pd.DataFrame(dados, columns=["Compra ID", "Data e Hora"])
+    dados = [[c.id_compra, c.data_hora.strftime("%d/%m/%Y %H:%M"), c.total()] for c in compras_ordenadas]
+    df = pd.DataFrame(dados, columns=["Compra ID", "Data e Hora", "Total"])
     print("\n" + tabulate(df.values, headers=df.columns, tablefmt="rounded_outline"))
     print(f"\nTotal de compras: {len(cliente.compras)}")
 

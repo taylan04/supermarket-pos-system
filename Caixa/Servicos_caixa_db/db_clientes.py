@@ -15,6 +15,6 @@ def consultar_clientes():
 
 def pesquisar_cliente(id):
     with session:
-        cliente = session.query(Cliente).options(joinedload(Cliente.compras).joinedload(Compra.itens)).get(id)
+        cliente = session.query(Cliente).options(joinedload(Cliente.compras).joinedload(Compra.itens).joinedload(Item.produto_referenciado)).get(id)
 
     return cliente

@@ -62,6 +62,9 @@ class Compra(Base):
         self.data_hora = data_hora
         self.id_cliente = id_cliente
 
+    def total(self):
+        return sum(item.quantidade * item.produto_referenciado.preco for item in self.itens)
+
     def __str__(self):
         return f'{self.id_compra}, {self.data_hora}, {self.id_cliente}'
 

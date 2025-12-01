@@ -10,7 +10,7 @@ def consultar_compras():
 
 def consultar_compra(id):
     with session:
-        compra = session.query(Compra).options(joinedload(Compra.cliente), joinedload(Compra.itens)).get(id)
+        compra = session.query(Compra).options(joinedload(Compra.cliente), joinedload(Compra.itens).joinedload(Item.produto_referenciado)).get(id)
     
     return compra
 
