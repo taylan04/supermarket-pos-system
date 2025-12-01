@@ -16,7 +16,7 @@ def consultar_produtos():
 
 def pesquisar_produto(id):
     with session:
-        produto = session.query(Produto).options(joinedload(Produto.fornecedores)).get(id)
+        produto = session.query(Produto).options(joinedload(Produto.fornecedores), joinedload(Produto.itens_comprados)).get(id)
 
     return produto
 

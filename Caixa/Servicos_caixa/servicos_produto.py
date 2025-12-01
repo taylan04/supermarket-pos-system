@@ -32,6 +32,10 @@ def remover_produto_do_banco():
     id_produto = entrar_inteiro("\nDigite o ID do produto que deseja remover: ")
     produto = pesquisar_produto(id_produto)
 
+    if produto.itens_comprados:
+        print("\nEsse produto possui registro em compras, portanto não pode ser deletado.")
+        return
+
     if not produto:
         print("\nProduto não encontrado.")
         return
