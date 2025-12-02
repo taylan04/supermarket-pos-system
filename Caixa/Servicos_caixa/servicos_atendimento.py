@@ -17,14 +17,19 @@ from Caixa.Servicos_caixa.servicos_item import *
 # atendimento
 
 def dar_baixa_no_estoque(carrinho):
-    produtos = consultar_produtos()
-    
+    quantidade_por_produto = {}
     for item in carrinho:
-        for produto in produtos:
-            if item["id_produto"] == produto.id_produto:
-                quantidade_retirada = item["quantidade"]
-                nova_qtd = produto.quantidade - quantidade_retirada
-                atualizar_produto(produto.id_produto, {"quantidade": nova_qtd})
+        id_produto = item["id_produto"]
+        if id_produto in quantidade_por_produto:
+            quantidade_por_produto[id_produto] += item["quantidade"]
+        else:
+            quantidade_por_produto[id_produto] = item["quantidade"]
+    
+    for id_produto, quantidade_total in quantidade_por_produto.items():
+        produto = pesquisar_produto(id_produto)
+        if produto:
+            nova_qtd = produto.quantidade - quantidade_total
+            atualizar_produto(id_produto, {"quantidade": nova_qtd})
 
 def finalizar_atendimento(cliente, carrinho, registros):
     data = datetime.datetime.now()

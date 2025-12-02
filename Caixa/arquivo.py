@@ -8,7 +8,7 @@ from Caixa.Servicos_caixa_db.db_clientes import *
 def abertura_caixa():
     produtos = consultar_produtos()
     try:
-        with open("dados/produtos.csv", "r", encoding="UTF-8") as arquivo:
+        with open("Dados/produtos.csv", "r", encoding="UTF-8") as arquivo:
             leitor = csv.reader(arquivo)
             for linha in leitor:
                 if not linha:
@@ -24,7 +24,7 @@ def abertura_caixa():
         print(f"Erro ao ler arquivo: {e}")
 
 def iniciar_clientes():
-    df = pd.read_json("dados/clientes.json")
+    df = pd.read_json("Dados/clientes.json")
     #tentei iterar sobre o df mas ele estava lendo o nome das colunas, então precisei usar o df.itertuples()
     clientes = consultar_clientes()
     if not clientes:
@@ -35,7 +35,7 @@ def iniciar_clientes():
 def salvar_csv():
     produtos = consultar_produtos()
     try:
-        with open("dados/produtos.csv", "w", newline="", encoding="UTF-8") as arquivo:
+        with open("Dados/produtos.csv", "w", newline="", encoding="UTF-8") as arquivo:
             escritor = csv.writer(arquivo)
             for p in produtos:
                 escritor.writerow([p.nome, p.preco, p.quantidade])  
