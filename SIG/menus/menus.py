@@ -32,3 +32,12 @@ def menu_consultas_produtos():
     print("[2] - Fornecedores de um produto")
     print("[3] - Voltar")
 
+def menu_atualizar_produto(nome):
+    print(f"\nProduto selecionado: {nome}")
+    print("o que deseja atualizar?")
+    print("1 - nome")
+    print("2 - preço")
+    print("3 - quantidade em estoque")
+    print("4 - adicionar fornecedor")
+    print("5 - remover fornecedor")
+    print("6 - confirmar e voltar")

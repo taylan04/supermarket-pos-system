@@ -6,6 +6,7 @@ from tabulate import tabulate
 from conexao import session
 from models import *
 from sqlalchemy.orm import joinedload
+from SIG.menus.menus import *
 
 def listar_produtos():
     produtos = consultar_produtos()
@@ -52,14 +53,7 @@ def atualizar_dados_do_produto():
         return None
 
     while True:
-        print(f"\nProduto selecionado: {produto.nome}")
-        print("o que deseja atualizar?")
-        print("1 - nome")
-        print("2 - preço")
-        print("3 - quantidade em estoque")
-        print("4 - adicionar fornecedor")
-        print("5 - remover fornecedor")
-        print("6 - cancelar")
+        menu_atualizar_produto(produto.nome)
 
         opcao = entrar_inteiro("\nescolha uma opção: ")
 
@@ -109,20 +103,11 @@ def atualizar_dados_do_produto():
             produto = pesquisar_produto(id_produto)
 
         elif opcao == 6:
-            print("\ncancelado.")
+            print("\noperações realizadas.")
             return
 
         else:
             print("\nopção inválida.")
-
-'''def excluir_produto_carrinho(carrinho):
-    if not carrinho:
-        print("\nCarrinho vazio!")
-        return carrinho
-    
-    produto_id = entrar_inteiro("\nDigite o ID do produto que deseja excluir do carrinho: ")
-    carrinho = remover_produto_carrinho(carrinho, produto_id)
-    return carrinho'''
 
 def produtos_esgotados():
     produtos = produtos_sem_estoque()
