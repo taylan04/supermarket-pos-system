@@ -4,7 +4,8 @@
 
 ### Descrição
 
-Sistema completo de **Ponto de Venda (POS)** para supermercados desenvolvido em **Python**. Este projeto demonstra o uso de **ORM (SQLAlchemy)**, **SQLite** para gerenciamento de banco de dados, **web scraping** para coleta de dados de produtos, e implementa funcionalidades completas de um sistema de caixa.
+Sistema completo de **Ponto de Venda (POS)** para supermercados desenvolvido em **Python**. Este projeto demonstra o uso de **ORM (SQLAlchemy)**, **SQLite** para gerenciamento de banco de dados, **web scraping** para coleta de dados de produtos, e implementa funcionalidades completas de um sistema de caixa.  
+**Além disso, o projeto foi expandido para incluir um SIG (Sistema de Informação Gerencial), exigindo uma remodelagem completa do banco de dados para suportar novas regras de negócio, incluindo compras, itens, fornecedores e relações produto-fornecedor carregadas via planilha Excel.**
 
 ### Funcionalidades
 
@@ -16,6 +17,20 @@ Sistema completo de **Ponto de Venda (POS)** para supermercados desenvolvido em 
 - **Web Scraping**: Coleta automática de dados de produtos via web
 - **Persistência de Dados**: Banco de dados SQLite com SQLAlchemy ORM
 - **Interface CLI**: Tabelas formatadas e organizadas usando `tabulate`
+- **Importação de Fornecedores via Excel** (aba *fornecedores*)
+- **Importação de Produtos-Fornecedores via Excel** (aba *produtos-fornecedores*)
+- **Associação Produto ↔ Fornecedor** (relação muitos-para-muitos)
+- **Consultas SIG:**
+  - Clientes com compras
+  - Clientes sem compras
+  - Detalhamento de compras de um cliente (ordenadas por data desc)
+  - Exibição de compra estilo nota fiscal
+  - Clientes que mais compram (quantidade)
+  - Clientes que mais gastam (valor total)
+  - Produtos mais vendidos / menos vendidos
+  - Produtos com baixo estoque (por parâmetro)
+  - Fornecedores de um produto
+- **CRUD completo de produtos**, incluindo associar/desassociar fornecedores
 
 ### Tecnologias Utilizadas
 
@@ -25,6 +40,7 @@ Sistema completo de **Ponto de Venda (POS)** para supermercados desenvolvido em 
 - **BeautifulSoup4** (Web Scraping)
 - **Pandas** (Manipulação de dados)
 - **Tabulate** (Formatação de tabelas)
+- **OpenPyXL** (Leitura das planilhas Excel do SIG)
 
 ### Instalação
 
@@ -34,16 +50,16 @@ git clone https://github.com/seu-usuario/supermarket-pos-system.git
 cd supermarket-pos-system
 ```
 
-2. Crie um ambiente virtual (recomendado):
+2. Crie um ambiente virtual:
 ```bash
 python -m venv venv
 ```
 
-3. Ative o ambiente virtual:
+3. Ative o ambiente:
 
 **Windows:**
 ```bash
-.\venv\Scripts\activate
+.env\Scriptsctivate
 ```
 
 **Linux/Mac:**
@@ -51,83 +67,72 @@ python -m venv venv
 source venv/bin/activate
 ```
 
-4. Instale as dependências:
+4. Instale dependências:
 ```bash
-pip install sqlalchemy pandas beautifulsoup4 tabulate
+pip install sqlalchemy pandas beautifulsoup4 tabulate openpyxl
 ```
 
 ### Como Usar
 
-1. Execute o arquivo principal:
 ```bash
 python caixa.py
 ```
 
-2. Siga as instruções no terminal:
-   - Abra o caixa escolhendo a opção `1`
-   - Cadastre ou consulte um cliente
-   - Navegue pelo menu para:
-     - Visualizar produtos disponíveis
-     - Adicionar produtos ao carrinho
-     - Remover produtos do carrinho
-     - Finalizar atendimento
-     - Fechar o caixa
-
-### Estrutura do Projeto
-
-```
-supermarket-pos-system/
-├── caixa.py                 # Arquivo principal - ponto de entrada
-├── menu.py                  # Definição dos menus do sistema
-├── models.py                # Modelos de dados (ORM)
-├── conexao.py               # Configuração do banco de dados
-├── util.py                  # Funções utilitárias
-├── arquivo.py               # Manipulação de arquivos CSV/JSON
-├── Servicos/                # Camada de serviços
-│   ├── servicos_atendimento.py
-│   ├── servicos_carrinho.py
-│   ├── servicos_cliente.py
-│   └── servicos_produto.py
-├── Servicos_db/             # Serviços de banco de dados
-│   ├── servicos_carrinho_db.py
-│   ├── servicos_clientes_db.py
-│   ├── servicos_produtos_db.py
-│   └── servicos_registros_db.py
-├── WebScraping/             # Módulo de web scraping
-│   └── produtoslp.py
-├── produtos.csv             # Arquivo CSV com produtos
-├── clientes.json            # Arquivo JSON com clientes
-└── banco.db                 # Banco de dados SQLite (gerado automaticamente)
+```bash
+python sig.py
 ```
 
 ### Conceitos Demonstrados
 
-- **Orientação a Objetos (OOP)**
-- **ORM (Object-Relational Mapping)**
-- **Padrão de Arquitetura em Camadas**
+- **OOP**
+- **ORM**
+- **Arquitetura em Camadas**
 - **Web Scraping**
-- **Manipulação de Dados (CSV, JSON)**
+- **Manipulação de Dados**
 - **Tratamento de Exceções**
-- **Persistência de Dados**
+- **Persistência**
+- **Modelagem de Banco**
+- **Relacionamento N:N**
+- **Consultas Analíticas**
+- **Integração Excel/CSV/JSON/Web**
 
 ---
+
+# Supermarket POS System
 
 ## English
 
 ### Description
 
-Complete **Point of Sale (POS) System** for supermarkets developed in **Python**. This project demonstrates the use of **ORM (SQLAlchemy)**, **SQLite** for database management, **web scraping** for product data collection, and implements complete cashier system functionalities.
+A complete **Point of Sale (POS)** system for supermarkets developed in **Python**. This project demonstrates the use of **ORM (SQLAlchemy)**, **SQLite** for database management, **web scraping** for product data collection, and implements full checkout system features.
+**Additionally, the project was expanded to include a MIS (Management Information System), requiring a full database remodel to support new business rules, including purchases, items, suppliers, and product-supplier relations loaded via an Excel spreadsheet.**
 
 ### Features
 
-- **Product Management**: Listing, querying, and stock control
-- **Customer Management**: Customer registration and queries
-- **Shopping Cart**: Add, remove, and view items
-- **Sales Records**: Complete transaction history
-- **Reports**: Cash closing with sales reports
-- **Web Scraping**: Automatic product data collection via web
-- **Data Persistence**: SQLite database with SQLAlchemy ORM
-- **CLI Interface**: Formatted and organized tables using `tabulate`
+- **Product Management**: Listing, querying, and stock control  
+- **Customer Management**: Customer registration and lookup  
+- **Shopping Cart**: Add, remove, and view items  
+- **Sales Records**: Complete transaction history  
+- **Reports**: Checkout summary with sales reports  
+- **Web Scraping**: Automatic product data collection  
+- **Data Persistence**: SQLite database with SQLAlchemy ORM  
+- **CLI Interface**: Organized, formatted tables using `tabulate`  
+- **Supplier Import via Excel** (sheet *fornecedores*)  
+- **Product‑Supplier Import via Excel** (sheet *produtos-fornecedores*)  
+- **Product ↔ Supplier Association** (many‑to‑many relationship)
+
+### MIS Queries
+
+- Customers with purchases  
+- Customers without purchases  
+- Detailed customer purchases (ordered by date desc)  
+- Invoice‑style purchase display  
+- Customers who buy the most (quantity)  
+- Customers who spend the most (total value)  
+- Best‑selling / least‑selling products  
+- Low‑stock products (parameter‑based)  
+- Suppliers of a given product  
+- Full product CRUD, including associating/dissociating suppliers  
 
 ### Technologies Used
 
@@ -137,6 +142,7 @@ Complete **Point of Sale (POS) System** for supermarkets developed in **Python**
 - **BeautifulSoup4** (Web Scraping)
 - **Pandas** (Data manipulation)
 - **Tabulate** (Table formatting)
+- **OpenPyXL** (Excel import for MIS)
 
 ### Installation
 
@@ -146,16 +152,16 @@ git clone https://github.com/your-username/supermarket-pos-system.git
 cd supermarket-pos-system
 ```
 
-2. Create a virtual environment (recommended):
+2. Create a virtual environment:
 ```bash
 python -m venv venv
 ```
 
-3. Activate the virtual environment:
+3. Activate the environment:
 
 **Windows:**
 ```bash
-.\venv\Scripts\activate
+.env\Scriptsctivate
 ```
 
 **Linux/Mac:**
@@ -165,69 +171,29 @@ source venv/bin/activate
 
 4. Install dependencies:
 ```bash
-pip install sqlalchemy pandas beautifulsoup4 tabulate
+pip install sqlalchemy pandas beautifulsoup4 tabulate openpyxl
 ```
 
-### Usage
+### How to Use
 
-1. Run the main file:
 ```bash
 python caixa.py
 ```
 
-2. Follow the terminal instructions:
-   - Open the cash register by choosing option `1`
-   - Register or query a customer
-   - Navigate through the menu to:
-     - View available products
-     - Add products to cart
-     - Remove products from cart
-     - Complete service
-     - Close cash register
-
-### Project Structure
-
-```
-supermarket-pos-system/
-├── caixa.py                 # Main file - entry point
-├── menu.py                  # System menu definitions
-├── models.py                # Data models (ORM)
-├── conexao.py               # Database configuration
-├── util.py                  # Utility functions
-├── arquivo.py               # CSV/JSON file handling
-├── Servicos/                # Service layer
-│   ├── servicos_atendimento.py
-│   ├── servicos_carrinho.py
-│   ├── servicos_cliente.py
-│   └── servicos_produto.py
-├── Servicos_db/             # Database services
-│   ├── servicos_carrinho_db.py
-│   ├── servicos_clientes_db.py
-│   ├── servicos_produtos_db.py
-│   └── servicos_registros_db.py
-├── WebScraping/             # Web scraping module
-│   └── produtoslp.py
-├── produtos.csv             # CSV file with products
-├── clientes.json            # JSON file with customers
-└── banco.db                 # SQLite database (auto-generated)
+```bash
+python sig.py
 ```
 
 ### Concepts Demonstrated
 
-- **Object-Oriented Programming (OOP)**
-- **ORM (Object-Relational Mapping)**
-- **Layered Architecture Pattern**
+- **OOP**
+- **ORM**
+- **Layered Architecture**
 - **Web Scraping**
-- **Data Manipulation (CSV, JSON)**
+- **Data Manipulation**
 - **Exception Handling**
-- **Data Persistence**
-
----
-
-## License
-
-This project is part of an academic assignment and is provided as-is for educational purposes.
-
-## Author
-
-Developed as part of the academic curriculum at INFNET.
+- **Persistence**
+- **Database Modeling**
+- **Many‑to‑Many Relationships**
+- **Analytical Queries**
+- **Excel/CSV/JSON/Web Integration**

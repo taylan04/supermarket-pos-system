@@ -9,7 +9,7 @@ def adicionar_cliente(cliente):
 
 def consultar_clientes():
     with session:
-        clientes = session.query(Cliente).options(joinedload(Cliente.compras).joinedload(Compra.itens)).all()
+        clientes = session.query(Cliente).options(joinedload(Cliente.compras).joinedload(Compra.itens)).all()   
         
     return clientes
 
