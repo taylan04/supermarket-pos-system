@@ -7,6 +7,12 @@
 Sistema completo de **Ponto de Venda (POS)** para supermercados desenvolvido em **Python**. Este projeto demonstra o uso de **ORM (SQLAlchemy)**, **SQLite** para gerenciamento de banco de dados, **web scraping** para coleta de dados de produtos, e implementa funcionalidades completas de um sistema de caixa.  
 **Além disso, o projeto foi expandido para incluir um SIG (Sistema de Informação Gerencial), exigindo uma remodelagem completa do banco de dados para suportar novas regras de negócio, incluindo compras, itens, fornecedores e relações produto-fornecedor carregadas via planilha Excel.**
 
+### Documentação
+
+![modelagem_conceitual](./Documentação/Modelo_Conceitual.png)
+
+![modelagem_logica](./Documentação/Modelo_Lógico.png)
+
 ### Funcionalidades
 
 - **Gerenciamento de Produtos**: Listagem, consulta e controle de estoque
